@@ -1,0 +1,16 @@
+{
+  "name": "murphy-ta-assistant",
+  "version": "0.1.0",
+  "description": "Personal AI Technical Analysis Assistant — grounded in John Murphy's Technical Analysis of the Financial Markets",
+  "private": true,
+  "scripts": {
+    "validate": "node scripts/validate_module.js",
+    "list": "node scripts/list_modules.js",
+    "help": "echo 'npm run validate <path>  — validate a module file\\nnpm run list             — show all modules and status'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["technical-analysis", "murphy", "trading", "AI", "knowledge-base"],
+  "license": "UNLICENSED"
+}

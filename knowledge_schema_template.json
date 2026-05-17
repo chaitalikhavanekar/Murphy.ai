@@ -1,0 +1,156 @@
+{
+  "_schema_info": {
+    "name": "Murphy TA Assistant — Knowledge Schema Template",
+    "version": "1.0.0",
+    "stage": "Stage 1 — Knowledge Foundation",
+    "purpose": "Master blueprint that every module JSON file must follow. Ensures the AI reasoning engine can read all modules consistently.",
+    "author": "Murphy TA Assistant Project",
+    "instructions": "Copy this file, rename it to your module (e.g. trend.json), remove all _comment fields, and fill in your data."
+  },
+
+  "module": {
+    "_comment": "Unique identifier for this knowledge module. Use snake_case. Must match the filename.",
+    "id": "MODULE_ID",
+    "name": "Module Display Name",
+    "murphy_chapters": ["Chapter X", "Chapter Y"],
+    "description": "What this module covers in 1-2 sentences.",
+    "priority": "critical | high | medium | low",
+    "depends_on": ["other_module_id"],
+    "tags": ["tag1", "tag2"]
+  },
+
+  "concepts": {
+    "_comment": "All core concepts from Murphy for this module. Each concept = one TA idea with a clear definition.",
+    "_array": true,
+    "_item_schema": {
+      "id": "concept_snake_case_id",
+      "name": "Concept Display Name",
+      "definition": "Precise definition of this concept as Murphy describes it.",
+      "murphy_context": "How Murphy specifically uses or explains this concept in the book.",
+      "module": "MODULE_ID",
+      "importance": "critical | high | medium | low",
+      "related_concepts": ["other_concept_id"],
+      "tags": ["tag1", "tag2"]
+    },
+    "_example": {
+      "id": "primary_trend",
+      "name": "Primary Trend",
+      "definition": "The longest-term price movement, typically lasting one year or more. Also called the major trend.",
+      "murphy_context": "Murphy treats the primary trend as the dominant force all shorter-term analysis must be evaluated against.",
+      "module": "trend",
+      "importance": "critical",
+      "related_concepts": ["secondary_trend", "minor_trend", "dow_theory"],
+      "tags": ["trend", "dow", "timeframe"]
+    }
+  },
+
+  "reasoning_rules": {
+    "_comment": "Actionable if-then rules the AI uses to analyze charts. Each rule has a condition and a signal it produces.",
+    "_array": true,
+    "_item_schema": {
+      "id": "rule_snake_case_id",
+      "rule": "Plain English statement of the rule.",
+      "condition": "The specific chart condition that must be present for this rule to apply.",
+      "signal": "bullish | bearish | neutral | warning | confirmation",
+      "timeframe": "intraday | daily | weekly | monthly | any",
+      "importance": "critical | high | medium | low",
+      "source_concept_ids": ["concept_id_this_rule_comes_from"],
+      "murphy_basis": "Brief note on which Murphy principle this rule is grounded in."
+    },
+    "_example": {
+      "id": "uptrend_higher_highs",
+      "rule": "An uptrend is intact as long as each rally reaches a higher high and each pullback holds a higher low.",
+      "condition": "Price makes a new high above the previous rally high AND the last pullback low is above the prior pullback low.",
+      "signal": "bullish",
+      "timeframe": "any",
+      "importance": "critical",
+      "source_concept_ids": ["primary_trend", "trend_definition"],
+      "murphy_basis": "Murphy's core definition of an uptrend from Chapter 4."
+    }
+  },
+
+  "confirmations": {
+    "_comment": "What strengthens or confirms a signal. Used by the AI to tell you how much confidence to place in a setup.",
+    "_array": true,
+    "_item_schema": {
+      "id": "confirmation_snake_case_id",
+      "pattern": "The primary pattern or signal being assessed.",
+      "confirmed_by": [
+        {
+          "factor": "Name of the confirming factor.",
+          "description": "How this factor confirms the primary pattern.",
+          "strength": "strong | moderate | weak"
+        }
+      ],
+      "contradicted_by": [
+        {
+          "factor": "Name of the contradicting factor.",
+          "description": "How this factor weakens or contradicts the primary pattern.",
+          "severity": "critical | major | minor"
+        }
+      ],
+      "minimum_confirmations_needed": 1,
+      "source_concept_ids": ["concept_id"]
+    },
+    "_example": {
+      "id": "uptrend_volume_confirmation",
+      "pattern": "Price uptrend",
+      "confirmed_by": [
+        {
+          "factor": "Volume expansion on rallies",
+          "description": "Volume increases as price moves higher, confirming buyer participation.",
+          "strength": "strong"
+        },
+        {
+          "factor": "Volume contraction on pullbacks",
+          "description": "Volume decreases during pullbacks, confirming selling pressure is weak.",
+          "strength": "strong"
+        }
+      ],
+      "contradicted_by": [
+        {
+          "factor": "Volume expansion on declines",
+          "description": "High volume on down days signals increasing selling pressure, weakening the trend.",
+          "severity": "major"
+        }
+      ],
+      "minimum_confirmations_needed": 1,
+      "source_concept_ids": ["primary_trend", "volume_trend_confirmation"]
+    }
+  },
+
+  "invalidations": {
+    "_comment": "The exact conditions that break or invalidate a concept or setup. This is how the AI knows when a thesis is wrong.",
+    "_array": true,
+    "_item_schema": {
+      "id": "invalidation_snake_case_id",
+      "concept_id": "the concept or setup being watched",
+      "invalidated_when": "The specific price or volume action that breaks this concept.",
+      "severity": "critical | major | minor",
+      "what_to_monitor": "What the analyst should watch to detect early signs of invalidation.",
+      "action_on_invalidation": "What conclusion to draw — not a trade recommendation, a reasoning conclusion.",
+      "murphy_basis": "Which Murphy principle defines this invalidation."
+    },
+    "_example": {
+      "id": "uptrend_invalidation",
+      "concept_id": "primary_trend",
+      "invalidated_when": "Price breaks below the most recent significant higher low on closing basis.",
+      "severity": "critical",
+      "what_to_monitor": "The last swing low. A close below it is the first warning. A second lower low confirms trend change.",
+      "action_on_invalidation": "Uptrend structure is broken. Reassess bias. Do not assume trend resumption without new evidence.",
+      "murphy_basis": "Murphy's rule that an uptrend requires a series of higher highs AND higher lows. One lower low breaks the sequence."
+    }
+  },
+
+  "knowledge_metadata": {
+    "_comment": "Filled in after the module is complete. Used by the RAG retrieval layer to index and score this module.",
+    "total_concepts": 0,
+    "total_rules": 0,
+    "total_confirmations": 0,
+    "total_invalidations": 0,
+    "completeness_status": "draft | in_progress | complete | verified",
+    "last_updated": "YYYY-MM-DD",
+    "populated_by": "your name or 'Claude session'",
+    "notes": "Any notes on gaps, TODOs, or things to revisit."
+  }
+}
