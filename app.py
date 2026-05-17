@@ -20,8 +20,8 @@ if uploaded_file:
 
     st.image(image, caption="Uploaded Chart", use_column_width=True)
 
-    model = genai.GenerativeModel("gemini-1.5-flash")
-
+    model = genai.GenerativeModel("models/gemini-1.5-flash")
+    
     with st.spinner("Murphy is analyzing chart..."):
 
         response = model.generate_content([
